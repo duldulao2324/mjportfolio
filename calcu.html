@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Calculator</title>
+    <style> 
+      body{
+        margin: 0;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        background-color: hsl(0,0%, 90%);
+
+    }
+    #result{
+        width:95%;
+        padding:1px ;
+        margin: 10px ;
+        font-size: 5rem;
+        text-align: center;
+        border: none;
+        background-color: grey;
+        border-radius: 20px;
+        margin-top: 20px;
+
+    }
+    #calcu{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: hsl(0,0%, 15%);
+        max-width: 500px;
+        overflow: hidden;
+
+    }
+    #keys{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 10px;
+        padding: 25px;
+
+    }
+     button{
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        border: none;
+        background-color:white;
+        color:black;
+        font-size: 3rem;
+        font-weight: bold;
+        cursor: pointer;
+     }
+     button:hover{
+        background-color: hsl(0,0%, 40%);
+     }
+     button:active{
+        background-color: hsl(0,0%, 50%);
+     }
+     #equal{
+        background-color:orange;
+     }
+       
+    </style> 
+</head>
+<body>
+    <div id="calcu">
+        <input type="text" id="result" readonly>
+        <div id="keys">
+          <button value="7"onclick="appendToResult('7')">7</button>
+          <button value="8"onclick="appendToResult('8')">8</button>
+          <button value="9"onclick="appendToResult('9')">9</button>
+          <button value="/"onclick="storeOperator('/')">/</button>
+          <button value="4"onclick="appendToResult('4')">4</button>
+          <button value="5"onclick="appendToResult('5')">5</button>
+          <button value="6"onclick="appendToResult('6')">6</button>
+          <button value="*"onclick="storeOperator('*')">*</button>
+            <button value="1" onclick="appendToResult('1')">1</button>
+            <button value="2"onclick="appendToResult('2')">2</button>
+            <button value="3"onclick="appendToResult('3')">3</button>
+            <button value="-"onclick="storeOperator('-')">-</button>
+            <button value="0"onclick="appendToResult('0')">0</button>
+            <button value="."onclick="appendDecimal('.')">.</button>
+            <button value="+"onclick="storeOperator('+')">+</button>          
+            <button id="equal"onclick="calculateResult('=')">=</button>
+
+        </div>
+    </div>
+   
+    <script>
+        var firstOperand = '';
+        var operator = '';
+        var waitingForSecondOperand = false;
+    
+        function appendToResult(value) {
+          if (waitingForSecondOperand) {
+            document.getElementById('result').value = value;
+            waitingForSecondOperand = false;
+          } else {
+            document.getElementById('result').value += value;
+          }
+        }
+    
+        function clearResult() {
+          document.getElementById('result').value = '';
+          firstOperand = '';
+          operator = '';
+          waitingForSecondOperand = false;
+        }
+    
+        function appendDecimal() {
+          if (!document.getElementById('result').value.includes('.')) {
+            document.getElementById('result').value += '.';
+          }
+        }
+    
+        function storeOperator(op) {
+          firstOperand = document.getElementById('result').value;
+          operator = op;
+          waitingForSecondOperand = true;
+          document.getElementById('result').value = ''; 
+        }
+    
+        function calculateResult() {
+          var secondOperand = document.getElementById('result').value;
+          var result = '';
+    
+          switch (operator) {
+            case '+':
+              result = parseFloat(firstOperand) + parseFloat(secondOperand);
+              break;
+            case '-':
+              result = parseFloat(firstOperand) - parseFloat(secondOperand);
+              break;
+            case '*':
+              result = parseFloat(firstOperand) * parseFloat(secondOperand);
+              break;
+            case '/':
+              result = parseFloat(firstOperand) / parseFloat(secondOperand);
+              break;
+            default:
+              result = secondOperand;
+          }
+    
+          document.getElementById('result').value = result;
+          firstOperand = '';
+          operator = '';
+          waitingForSecondOperand = false;
+        }
+      </script>
+    </script>
+</body>
+</html>
